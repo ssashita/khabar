@@ -5,6 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+require('./models/Comments');
+require('./models/Posts');
+
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
@@ -58,3 +61,7 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+var mongoose = require('mongoose');
+
+
+mongoose.connect('mongodb://localhost/khabar');

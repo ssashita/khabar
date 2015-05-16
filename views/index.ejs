@@ -1,11 +1,97 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+
+<head>
+<meta charset="UTF-8">
+<div class="page-header">
+	<title>Khabarrrr...</title>
+</div>
+<script type="text/javascript" src='angularjs/angular.min.js'></script>
+<script type="text/javascript" src='angularjs/angular-mocks.js'></script>
+<script type="text/javascript"
+	src='angularjs/angular-ui-router-min.js'></script>
+<script type="text/javascript" src='javascripts/angularApp.js'></script>
+<link src="angularjs/bootstrap.min.css" rel="stylesheet" />
+<style>
+.glyphicon-thumbs-up {
+	cursor: pointer
+}
+</style>
+</head>
+
+<body ng-app="Khabar">
+	<div class="row">
+		<div class="col-md-6 col-md-offset-3">
+			<ui-view></ui-view>
+		</div>
+	</div>
+	<script type="text/ng-template" id="/home.html">
+		<div class="page-header">
+			<F1>Khabarrrr...</F1>
+		</div>
+		<hr />
+
+		<form style:"margin-top:30px" name='add posts'>
+			<h3>Add a Post:</h3>
+			<br />
+			<div class="form-group">
+				<input class="form-control" type='text' placeholder="Title"
+					ng-model='title' />
+			</div>
+			<div ng-show="title === '' " style="color: red">Invalid Title</div>
+			<hr />
+			<div class="form-group">
+				<input type='text' class="form-control" placeholder="Link"
+					ng-model='link' />
+			</div>
+			<hr />
+			<button class="btn btn-primary" type='Submit'
+				ng-click="title && addPost()">Post</button>
+		</form>
+
+		<br />
+		<hr />
+		<hr />
+		<hr />
+		<div ng-repeat="p in posts | orderBy: '-upVotes'">
+			<a style="font-size: 20px margin-left:10px" ng-show="p.link"
+				href="{{p.link}}">{{p.title}}</a> <span ng-hide="p.link">{{p.title}}</span>
+                <span><a href="#/posts/{{p._id}}">Comments</a></span>
+                -upVotes: {{p.upvotes}}<br />
+			<div ng-show="p.link">
+				{{p.link}} <span class="glyphicon glyphicon-thumbs-up"
+					ng-click="incrementVotes(p)"><button>^</button></span> <span
+					class="glyphicon glyphicon-thumbs-up" ng-click="decrementVotes(p)"><button>v</button></span>
+				<br />
+			</div>
+			<hr />
+		</div>
+	</script>
+	
+	<script type="text/ng-template" id="/posts.html">
+        <div class="page-header">
+         <h3>
+           <a ng-show="post.link" href="{{post.link}}">
+             {{post.title}}
+           </a>
+           <span ng-hide="post.link">
+             {{post.title}}
+
+           </span>
+         </h3>
+        </div>
+        <div ng-repeat="comment in post.comments | orderBy:'-upvotes'">
+          <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(comment)"></span>
+               <button ng-click="upvoteComment(comment)">Upvote {{comment.upvotes}} ^</button> - by {{comment.author}}
+          <span style="font-size:20px; margin-left:10px;">
+            {{comment.body}}               
+          </span>
+        </div>
+        <br/>
+        <input type='text' class="form-control" placeholder="Comment"
+					ng-model="newcomment.body" />
+           <button ng-click="addComment()">Save</button>
+    </script>
+</body>
+
 </html>
