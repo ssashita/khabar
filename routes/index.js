@@ -147,7 +147,7 @@ router.post('/register', function(req, res, next) {
       if(err) { return next(err);}
 
        return res.json({token: user.generateJWT()});
-     })
+     });
 });
 
 router.post('/login', function(req, res, next) {
